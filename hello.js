@@ -6,6 +6,7 @@ function main(req,res,moudle){
 	console.log(c);
 	console.log('this is change');
 	console.log('helloWorld');
-	return 0;
+	var d = a*b;
+	return d;
 
 }
