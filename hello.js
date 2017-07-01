@@ -9,4 +9,5 @@ function main(req,res,moudle){
 	var d = a*b;
 	return d;
 
+
 }
