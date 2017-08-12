@@ -28,7 +28,7 @@
 
   /*cubeRotate start*/
   var isIE = function(){
-  return ("ActiveXObject" in window);
+	return ("ActiveXObject" in window);
   };
   if( isIE() ) {
     $('#contenedor').hide();

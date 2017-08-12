@@ -5,15 +5,19 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   
-  <title>TongYL&#39;s Blog</title>
+  <title>jetty-maven-plugin插件的使用 | TongYL&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="TongYL&#39;s Blog">
-<meta property="og:url" content="http://www.tongyl.cn/index.html">
+  <meta name="description" content="安装jetty插件打开项目的pom.xml文件，然后找到build节点，然后添加如下插件12345&amp;lt;plugin&amp;gt;  &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt;  &amp;lt;artifactId&amp;gt;jetty-maven-plugin&amp;lt;/artifactId&amp;gt;  &amp;lt;version&amp;gt;8.1.16.v2014">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jetty-maven-plugin插件的使用">
+<meta property="og:url" content="http://www.tongyl.cn/2017/08/12/jettyMaven/index.html">
 <meta property="og:site_name" content="TongYL&#39;s Blog">
+<meta property="og:description" content="安装jetty插件打开项目的pom.xml文件，然后找到build节点，然后添加如下插件12345&amp;lt;plugin&amp;gt;  &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt;  &amp;lt;artifactId&amp;gt;jetty-maven-plugin&amp;lt;/artifactId&amp;gt;  &amp;lt;version&amp;gt;8.1.16.v2014">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-12T11:10:17.085Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TongYL&#39;s Blog">
+<meta name="twitter:title" content="jetty-maven-plugin插件的使用">
+<meta name="twitter:description" content="安装jetty插件打开项目的pom.xml文件，然后找到build节点，然后添加如下插件12345&amp;lt;plugin&amp;gt;  &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt;  &amp;lt;artifactId&amp;gt;jetty-maven-plugin&amp;lt;/artifactId&amp;gt;  &amp;lt;version&amp;gt;8.1.16.v2014">
   
   
     <link rel="icon" href="/img/favicon.ico">
@@ -74,9 +78,7 @@
 </header>
 
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-jettyMaven" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-jettyMaven" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <h3 href="/2017/08/12/jettyMaven/" class="article-date">
   <time datetime="2017-08-12T10:55:31.138Z" itemprop="datePublished">2017-08-12</time>
@@ -91,8 +93,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/12/jettyMaven/">jetty-maven-plugin插件的使用</a>
+    <h1 class="article-title" itemprop="name">
+      jetty-maven-plugin插件的使用
     </h1>
   
 
@@ -158,154 +160,21 @@
   </div>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hapiJoi" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <h3 href="/2017/08/12/hapiJoi/" class="article-date">
-  <time datetime="2017-08-12T10:34:17.914Z" itemprop="datePublished">2017-08-12</time>
-</h3>
-    
-  </div>
-  <div class="article-inner">
-  <div class="curve-down">
-  <div class="fill-content">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/12/hapiJoi/">验证模块joi介绍</a>
-    </h1>
+    <a href="/2017/08/12/hapiJoi/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">验证模块joi介绍</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-        <p>&emsp;&emsp;joi是nodej的一个工具模块，主要用于JavaScript对象的校验。它是一种简单易用的javacript对象约束描述语言，可以轻松解决nodejs开发中的各种参数的校验。</p>
-<p>详细资料见 <a href="https://github.com/hapijs/joi/tree/v10.5.0" target="_blank" rel="external">https://github.com/hapijs/joi/tree/v10.5.0</a></p>
-<h5 id="1-nodejs引入："><a href="#1-nodejs引入：" class="headerlink" title="1. nodejs引入："></a>1. nodejs引入：</h5><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">const Joi</span> = require(<span class="string">'joi'</span>);</div></pre></td></tr></table></figure>
-<h5 id="2-开时使用："><a href="#2-开时使用：" class="headerlink" title="2.  开时使用："></a>2.  开时使用：</h5><figure class="highlight roboconf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">const schema = Joi.object().keys(&#123;</div><div class="line">    <span class="attribute">username</span>: Joi<span class="variable">.string</span>()<span class="variable">.alphanum</span>()<span class="variable">.min</span>(3)<span class="variable">.max</span>(30)<span class="variable">.required</span>(),</div><div class="line">    password: Joi<span class="variable">.string</span>()<span class="variable">.regex</span>(/^[a-zA-Z0-9]&#123;3,30&#125;$/),</div><div class="line">    access_token: [Joi<span class="variable">.string</span>(), Joi<span class="variable">.number</span>()],</div><div class="line">    birthyear: Joi<span class="variable">.number</span>()<span class="variable">.integer</span>()<span class="variable">.min</span>(1900)<span class="variable">.max</span>(2013),</div><div class="line">    email: Joi<span class="variable">.string</span>()<span class="variable">.email</span>()</div><div class="line">&#125;)<span class="variable">.with</span>('username', 'birthyear')<span class="variable">.without</span>('password', 'access_token');</div><div class="line"></div><div class="line"></div><div class="line"><span class="attribute">const result = Joi.validate(&#123; username</span>: 'abc', birthyear: 1994 &#125;, schema);</div><div class="line">//<span class="attribute">result --&gt; &#123; error</span>: null, value: &#123; username: 'abc', birthyear: 1994 &#125; &#125;</div><div class="line">//result<span class="variable">.error</span> === null, 说明校验通过 ,result<span class="variable">.value</span>校验的对象</div><div class="line"></div><div class="line">//也可以使用回调函数，异步获取校验结果，</div><div class="line">Joi<span class="variable">.validate</span>(&#123; username: 'abc', birthyear: 1994 &#125;, schema, function (err, value) &#123; </div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面的例子定义了一个schema，包含的意思如下：</p>
-<ul>
-<li>username </li>
-</ul>
-<blockquote>
-<p>Joi.String() – 定义类型必须是字符串类型</p>
-<p>.alphanum() – 定义必须包含字母或数字</p>
-<p>.min(3).max(30) – 定义字段长度3-30</p>
-<p>.required() – 定义必修字段</p>
-<p>.with(‘username’,’birthyear’) – 校验对象字段必须和birthyear同时存在</p>
-</blockquote>
-<ul>
-<li>password</li>
-</ul>
-<blockquote>
-<p>.regex(/^[a-zA-Z0-9{3-30}$/) – 定义字段必须匹配正则规则。</p>
-<p>.without(‘password’,’access_token’) – 校验对象中，’password’与’access_token’不同是存在</p>
-</blockquote>
-<ul>
-<li>access_token<blockquote>
-<p>.[Joi.string(),Joi.number()] – 定义字段类型为数字类型或字符串类型</p>
-</blockquote>
-</li>
-</ul>
-<blockquote>
-<p>没有.required()约束 – 定义字段为可选字段</p>
-</blockquote>
-<ul>
-<li>birthyear</li>
-</ul>
-<blockquote>
-<p>.Joi.number().integer() – 定义字段为数字整型</p>
-<p>.min(1900).max(1994) – 定义字段值范围在1900-1994</p>
-</blockquote>
-<ul>
-<li>email</li>
-</ul>
-<blockquote>
-<p>.email() – 定义字段为邮箱地址</p>
-</blockquote>
-<h5 id="23-用法："><a href="#23-用法：" class="headerlink" title="23.  用法："></a>23.  用法：</h5><p> 使用分两步完成 第一步使用joi提供的类型与约束定义一个schema<br> <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"> const <span class="keyword">schema </span>= &#123;</div><div class="line">    a: <span class="keyword">Joi.string()</span></div><div class="line"><span class="keyword">&#125;;</span></div></pre></td></tr></table></figure></p>
-<p> &emsp;&emsp;注意：joi schema对象是不可变，这意味着每增加一条规则（e.g. .min(5)）将会返回一个新的schema对象。</p>
-<p>第二步 通过定义的schema完成值的校验<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const &#123;error, value&#125; = Joi.validate(&#123; a: <span class="string">'a string'</span> &#125;, <span class="keyword">schema</span>);</div><div class="line"></div><div class="line">// or</div><div class="line"></div><div class="line">Joi.validate(&#123; a: <span class="string">'a string'</span> &#125;, <span class="keyword">schema</span>, <span class="keyword">function</span> (err, <span class="keyword">value</span>) &#123; &#125;);</div></pre></td></tr></table></figure></p>
-<p>如果输入的值校验有效，则err===null 否则将会返回错误对象<br>schema可以使用普通的JavaScript对象，其中对象的字段关联joi类型来定义。也可以直接使用一个joi类型定义</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> schema = Joi.<span class="keyword">string</span>().<span class="built_in">min</span>(<span class="number">10</span>);</div></pre></td></tr></table></figure>
-<p>如果schema是直接使用joi类型定义 ，则可以直接使用schema.validate(value,callback)验证。如果是一个非joi类型对象的定义的shema ，实质joi模块会转换成object() 类型，等同如下：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const <span class="keyword">schema </span>= <span class="keyword">Joi.object().keys(&#123;</span></div><div class="line"><span class="keyword"> </span>   a: <span class="keyword">Joi.string()</span></div><div class="line"><span class="keyword">&#125;);</span></div></pre></td></tr></table></figure></p>
-<p>joi模块的字符串编码默认为utf-8</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <div class="article-footer-content">
-        
-        <a data-url="http://www.tongyl.cn/2017/08/12/hapiJoi/" data-id="cj6995djw00024sqqffozltv9" class="article-share-link">分享到</a>
-        
-      </div>
-    </footer>
-  </div>
-  </div>
-  </div>
   
 </article>
 
 
-
-  
-    <article id="post-hapi" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <h3 href="/2017/08/10/hapi/" class="article-date">
-  <time datetime="2017-08-10T10:06:49.294Z" itemprop="datePublished">2017-08-10</time>
-</h3>
-    
-  </div>
-  <div class="article-inner">
-  <div class="curve-down">
-  <div class="fill-content">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/10/hapi/">hapijs 框架的权限验证</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-        <h6 id="hapijs-框架的权限验证demo，实现接口如下"><a href="#hapijs-框架的权限验证demo，实现接口如下" class="headerlink" title="hapijs 框架的权限验证demo，实现接口如下"></a>hapijs 框架的权限验证demo，实现接口如下</h6><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">/  <span class="builtin-name">get</span>  登陆页面</div><div class="line">/  post  提交登陆信息</div><div class="line">/register  <span class="builtin-name">get</span>  注册页面</div><div class="line">/register  post  提交注册信息</div><div class="line">/logout   <span class="builtin-name">get</span>  退出接口</div></pre></td></tr></table></figure>
-<h6 id="主要逻辑的实现"><a href="#主要逻辑的实现" class="headerlink" title="主要逻辑的实现"></a>主要逻辑的实现</h6><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//new hapi.server实例</span></div><div class="line"><span class="keyword">var</span> server = <span class="keyword">new</span> Hapi.Server();</div><div class="line"></div><div class="line"><span class="comment">//设置服务器端口</span></div><div class="line">server.connection(&#123;</div><div class="line">    host: <span class="string">'localhost'</span>,</div><div class="line">    port: <span class="number">7000</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//注册相关插件</span></div><div class="line"></div><div class="line">server.register([&#123;</div><div class="line">    register: CookieAuth <span class="comment">// 权限插件</span></div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">    register: Vision <span class="comment">//视图模版插件</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">], <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;&#125;);</div><div class="line"></div><div class="line"><span class="comment">//设置视图</span></div><div class="line">server.views(&#123;</div><div class="line">    engines: &#123;</div><div class="line">        html: Handlebars</div><div class="line">    &#125;,</div><div class="line">    path: __dirname + <span class="string">'/views'</span>,</div><div class="line">    layout: <span class="literal">true</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//权限设置及验证</span></div><div class="line">    <span class="comment">//验证函数</span></div><div class="line">    <span class="keyword">var</span> validation = <span class="function"><span class="keyword">function</span> (<span class="params">request, session, callback</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(session);</div><div class="line">        <span class="keyword">var</span> account = session.email;</div><div class="line">        <span class="keyword">var</span> user = User[account];</div><div class="line">        <span class="keyword">if</span> (!user) &#123;</div><div class="line">            <span class="keyword">return</span> callback(<span class="literal">null</span>, <span class="literal">false</span>);</div><div class="line">        &#125;</div><div class="line">        server.log(<span class="string">'info'</span>, <span class="string">'user authenticated'</span>);</div><div class="line">        callback(err, <span class="literal">true</span>, user);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//session-cookie认证策略</span></div><div class="line"></div><div class="line">    server.auth.strategy(<span class="string">'session'</span>, <span class="string">'cookie'</span>, <span class="literal">true</span>, &#123;</div><div class="line">        password: <span class="string">'m!*"2/),p4:xDs%KEgVr7;e#85Ah^WYC'</span>,</div><div class="line">        cookie: <span class="string">'future-studio-hapi-tutorials-cookie-auth-example'</span>,</div><div class="line">        isSecure: <span class="literal">false</span>,</div><div class="line">        redirectTo: <span class="string">'/'</span>,</div><div class="line">        validateFunc: validation</div><div class="line">    &#125;);</div><div class="line"></div><div class="line"><span class="comment">//配置路由</span></div><div class="line">  <span class="keyword">var</span> routes = <span class="built_in">require</span>(<span class="string">'./router'</span>);</div><div class="line">  server.route(routes);</div><div class="line"></div><div class="line"><span class="comment">//启动sever</span></div><div class="line"> server.start(<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (err) &#123;</div><div class="line">            <span class="keyword">throw</span> err</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'Server runing at:'</span> + server.info.uri);</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
-<h6 id="工程的文件说明"><a href="#工程的文件说明" class="headerlink" title="工程的文件说明"></a>工程的文件说明</h6><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="string">|-views 视图文件夹</span></div><div class="line">    <span class="string">|-index.html 登陆页面</span></div><div class="line">    <span class="string">|-profile.html 用户信息展示页面</span></div><div class="line">    <span class="string">|-register.html 注册页面</span></div><div class="line"><span class="string">|-router.js 路由文件</span></div><div class="line"><span class="string">|-user_db.js 注册用户文件</span></div></pre></td></tr></table></figure>
-<h5 id="dome-地址-：https-github-com-tonyonlian-node-hapi-auth"><a href="#dome-地址-：https-github-com-tonyonlian-node-hapi-auth" class="headerlink" title="dome 地址 ：https://github.com/tonyonlian/node-hapi-auth"></a>dome 地址 ：<a href="https://github.com/tonyonlian/node-hapi-auth" target="_blank" rel="external">https://github.com/tonyonlian/node-hapi-auth</a></h5>
-      
-    </div>
-    <footer class="article-footer">
-      <div class="article-footer-content">
-        
-        <a data-url="http://www.tongyl.cn/2017/08/10/hapi/" data-id="cj6995djd00014sqqx1bjq98i" class="article-share-link">分享到</a>
-        
-      </div>
-    </footer>
-  </div>
-  </div>
-  </div>
-  
-</article>
-
-
-
-  
-  
 </section>
       
       <aside id="sidebar">
