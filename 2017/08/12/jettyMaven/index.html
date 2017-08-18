@@ -8,13 +8,14 @@
   <title>jetty-maven-plugin插件的使用 | TongYL&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="安装jetty插件打开项目的pom.xml文件，然后找到build节点，然后添加如下插件12345&amp;lt;plugin&amp;gt;  &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt;  &amp;lt;artifactId&amp;gt;jetty-maven-plugin&amp;lt;/artifactId&amp;gt;  &amp;lt;version&amp;gt;8.1.16.v2014">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jetty-maven-plugin插件的使用">
 <meta property="og:url" content="http://www.tongyl.cn/2017/08/12/jettyMaven/index.html">
 <meta property="og:site_name" content="TongYL&#39;s Blog">
 <meta property="og:description" content="安装jetty插件打开项目的pom.xml文件，然后找到build节点，然后添加如下插件12345&amp;lt;plugin&amp;gt;  &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt;  &amp;lt;artifactId&amp;gt;jetty-maven-plugin&amp;lt;/artifactId&amp;gt;  &amp;lt;version&amp;gt;8.1.16.v2014">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-08-12T11:10:17.085Z">
+<meta property="og:updated_time" content="2017-08-18T14:52:12.880Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jetty-maven-plugin插件的使用">
 <meta name="twitter:description" content="安装jetty插件打开项目的pom.xml文件，然后找到build节点，然后添加如下插件12345&amp;lt;plugin&amp;gt;  &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt;  &amp;lt;artifactId&amp;gt;jetty-maven-plugin&amp;lt;/artifactId&amp;gt;  &amp;lt;version&amp;gt;8.1.16.v2014">
@@ -107,6 +108,7 @@
 <li>安装jetty插件<br>打开项目的pom.xml文件，然后找到build节点，然后添加如下插件<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mortbay.jetty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jetty-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.1.16.v20140903<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
 </li>
 </ol>
+<a id="more"></a>
 <p>然后重新编译一下，就可以使用jetty插件了，在运行jetty插件需要对setting.xml做修改。<br>我们知道，maven默认情况下只有org.apache.maven.plugins和org.codehaus.mojo两个grounpId下的插件才支持简化命令调用，像可以运行mav help:system 这样的简介命令。但mvn jetty:run就不行了。因为maven-help-plugin 的groupId是org.apache.maven.plugins，而jetty-maven-plugin的groupId是org.mortbay.jetty。为了能在命令行直接运行mvn  jetty:run，用户需要配置setting.xml 如下：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">pluginGroups</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">pluginGroup</span>&gt;</span>org.mortbay.jetty<span class="tag">&lt;/<span class="name">pluginGroup</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">pluginGroups</span>&gt;</span></div><div class="line">  ...</div><div class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>现在可以使用mvn jetty:run 运行jetty了。Jetty默认监听本地端口为8080，jetty部署的项目的Context  path默认是 / , 也就是说，项目的访问入口是：<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a></p>
@@ -139,7 +141,7 @@
 <p>Jetty插件的contextPath 的默认值是 /, 在pom.xml文件可以对Web应用的ContextPath 进行配置，配置如下:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  ...</div><div class="line">   <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;<span class="name">webApp</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">contextPath</span>&gt;</span>/$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">contextPath</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">webApp</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">confi</span></span></div></pre></td></tr></table></figure>
 <p>${project.artifactId} 引用了 <artifactid> 节点的值，即项目的名称。<br>项目的静态资源文件目录默认是 src/main/webapp，如果静态资源目录有多个，或者不在默认的 src/main/webapp 目录下，可做如下配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  ...</div><div class="line">   <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;<span class="name">webApp</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">contextPath</span>&gt;</span>/$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">contextPath</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">resourceBases</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">resourcBase</span>&gt;</span>$&#123;project.basedir&#125;/src/main/webapp<span class="tag">&lt;/<span class="name">resourceBase</span>&gt;</span></div><div class="line"> 		<span class="tag">&lt;<span class="name">resourcBase</span>&gt;</span>$&#123;project.basedir&#125;/commons<span class="tag">&lt;/<span class="name">resourceBase</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">resourceBases</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">webApp</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure></artifactid></p>
-<p>引用静态资源文件时，路径不包含资源目录的名称，如 commons/main.css，引用方式为：<link href="main.css" rel="stylesheet"></p>
+<p>引用静态资源文件时，路径不包含资源目录的名称，如 commons/main.css，引用方式为：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link <span class="attribute">href</span>=<span class="string">"main.css"</span> <span class="attribute">rel</span>=<span class="string">"stylesheet"</span> /&gt;</div></pre></td></tr></table></figure></p>
 <ul>
 <li>访问日志的配置</li>
 </ul>
@@ -152,8 +154,14 @@
     <footer class="article-footer">
       <div class="article-footer-content">
         
-        <a data-url="http://www.tongyl.cn/2017/08/12/jettyMaven/" data-id="cj69amnz00003m0qqrtnqwwz9" class="article-share-link">分享到</a>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+        <a data-url="http://www.tongyl.cn/2017/08/12/jettyMaven/" data-id="cj6hzyz2b0004uwqqqjrgoc07" class="article-share-link">分享到</a>
         
+          <a href="http://www.tongyl.cn/2017/08/12/jettyMaven/#lv-container" class="article-comment-link">评论</a>
+        
+          
+
       </div>
     </footer>
   </div>
@@ -175,7 +183,13 @@
 </article>
 
 
-</section>
+ 
+  <section id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDI0Ny82ODAy"></div>
+  </section>
+ 
+
+ </section>
       
       <aside id="sidebar">
   
@@ -203,6 +217,13 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/">node</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -225,7 +246,7 @@
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
       .
       Content by <a href="https://github.com/tonyonlian" target="_blank">yongliang</a>
-        <span style="color:#ffffff">&nbsp|&nbsp&nbsp</span><span style="display: inline;" id="busuanzi_container_site_uv">您是本站第 <span id="busuanzi_value_site_uv" font="微软雅黑" style="color:white"></span> 个访客</span>
+        <span style="color:#ffffff">&nbsp|&nbsp&nbsp</span><span style="display: inline;" id="busuanzi_container_site_pv">您是本站第 <span id="busuanzi_value_site_pv" font="微软雅黑" style="color:white"></span> 个访客</span>
     </div>
   </div>
  
@@ -242,6 +263,26 @@
   <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
 </nav>
   
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    menuSettings: {
+      zoom: "None"
+    },
+    showMathMenu: false,
+    jax: ["input/TeX","output/CommonHTML"],
+    extensions: ["tex2jax.js"],
+    TeX: {
+      extensions: ["AMSmath.js","AMSsymbols.js"],
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+  });
+</script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script>
+
+
 
 <!-- totop start -->
 <div id="totop">
@@ -252,6 +293,23 @@
 <!-- swiftype search start -->
 
 <!-- swiftype search end -->
+
+
+  
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+
 
 
 
@@ -266,7 +324,7 @@
 
 <script src="/js/script.js"></script>
 
-1
+
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 

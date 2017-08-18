@@ -100,58 +100,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
         <ol>
 <li>安装jetty插件<br>打开项目的pom.xml文件，然后找到build节点，然后添加如下插件<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mortbay.jetty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jetty-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.1.16.v20140903<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>然后重新编译一下，就可以使用jetty插件了，在运行jetty插件需要对setting.xml做修改。<br>我们知道，maven默认情况下只有org.apache.maven.plugins和org.codehaus.mojo两个grounpId下的插件才支持简化命令调用，像可以运行mav help:system 这样的简介命令。但mvn jetty:run就不行了。因为maven-help-plugin 的groupId是org.apache.maven.plugins，而jetty-maven-plugin的groupId是org.mortbay.jetty。为了能在命令行直接运行mvn  jetty:run，用户需要配置setting.xml 如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">pluginGroups</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">pluginGroup</span>&gt;</span>org.mortbay.jetty<span class="tag">&lt;/<span class="name">pluginGroup</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">pluginGroups</span>&gt;</span></div><div class="line">  ...</div><div class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>现在可以使用mvn jetty:run 运行jetty了。Jetty默认监听本地端口为8080，jetty部署的项目的Context  path默认是 / , 也就是说，项目的访问入口是：<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a></p>
-<ol>
-<li>jetty插件的的配置<br>在pom.xml 文件中的jetyy的plugin节点下，添加configuration的节点就可以配置jetty了。</li>
-</ol>
-<ul>
-<li>Jetty服务的停止配置<br>如果希望通过命令 mvn jetty:stop执行关闭jetty服务，则需要如下配置，配置特殊端口 stopPort和控制键 stopKey<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mortbay.jetty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jetty-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.1.16.v20140903<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;<span class="name">stopKey</span>&gt;</span>shoutdown<span class="tag">&lt;/<span class="name">stopKey</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">stopPort</span>&gt;</span>9900<span class="tag">&lt;/<span class="name">stopPort</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>这下可以通过mvn jetty:stop来停止jetty服务</p>
-<ul>
-<li>端口的配置</li>
-</ul>
-<p>Jetty默认的端口是8080 ，命令行可以修改运行端口：mvn –Djetty.port=8081 jett:run。pom.xml的配置方式如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  ...</div><div class="line">   <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	 <span class="tag">&lt;<span class="name">httpConnector</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">port</span>&gt;</span>8081<span class="tag">&lt;/<span class="name">port</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">httpConnector</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>自动热部署<br>Jetty的自动热部署命令行方式：mvn –Djetty.ScanIntervalSeconds=10 jetty:run。也可以在pom.xml文件中配置,配置如下:</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  ...</div><div class="line">   <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	 <span class="tag">&lt;<span class="name">scanIntervalSeconds</span>&gt;</span>10<span class="tag">&lt;/<span class="name">scanIntervalSeconds</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>默认值是0 大于0数值表示开启，0表示关闭，单位为秒，已配置数值为一个周期，自动的扫描文件检查其内容是否变化，如果发现文件变化，则自动重新部署。</p>
-<ul>
-<li>手动重载</li>
-</ul>
-<p>Jetty的自动热部署命令行方式：mvn –Djetty.reload =manual jetty:run。也可以在pom.xml文件中配置,配置如下:<br>默认值为 automatic，它与大于0的scanIntervalSeconds节点一起起作用，实现自动热部署工作。如果将值设置为manual的好处是，当你改变文件内容并保存时，不会马上触发自动扫描和重部署动作，你还可以继续修改，直到你在console或命令行中敲回车（Enter）时候才会触发加载动作。这样可以更加方便的调试修改。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  ...</div><div class="line">   <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	 <span class="tag">&lt;<span class="name">reload</span> &gt;</span>manual<span class="tag">&lt;/<span class="name">reload</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>Web上下文</li>
-</ul>
-<p>Jetty插件的contextPath 的默认值是 /, 在pom.xml文件可以对Web应用的ContextPath 进行配置，配置如下:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  ...</div><div class="line">   <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;<span class="name">webApp</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">contextPath</span>&gt;</span>/$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">contextPath</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">webApp</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">confi</span></span></div></pre></td></tr></table></figure>
-<p>${project.artifactId} 引用了 <artifactid> 节点的值，即项目的名称。<br>项目的静态资源文件目录默认是 src/main/webapp，如果静态资源目录有多个，或者不在默认的 src/main/webapp 目录下，可做如下配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  ...</div><div class="line">   <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;<span class="name">webApp</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">contextPath</span>&gt;</span>/$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">contextPath</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">resourceBases</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">resourcBase</span>&gt;</span>$&#123;project.basedir&#125;/src/main/webapp<span class="tag">&lt;/<span class="name">resourceBase</span>&gt;</span></div><div class="line"> 		<span class="tag">&lt;<span class="name">resourcBase</span>&gt;</span>$&#123;project.basedir&#125;/commons<span class="tag">&lt;/<span class="name">resourceBase</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">resourceBases</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">webApp</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure></artifactid></p>
-<p>引用静态资源文件时，路径不包含资源目录的名称，如 commons/main.css，引用方式为：<link href="main.css" rel="stylesheet"></p>
-<ul>
-<li>访问日志的配置</li>
-</ul>
-<p>在你的 pom.xml 文件添加如下配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">  ...</div><div class="line">   <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">requestLog</span> <span class="attr">implementation</span>=<span class="string">"org.eclipse.jetty.server.NCSARequestLog"</span>&gt;</span></div><div class="line">  		<span class="tag">&lt;<span class="name">filename</span>&gt;</span>target/access-yyyy_mm_dd.log<span class="tag">&lt;/<span class="name">filename</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">filenameDateFormat</span>&gt;</span>yyyy_MM_dd<span class="tag">&lt;/<span class="name">filenameDateFormat</span>&gt;</span></div><div class="line">  		<span class="tag">&lt;<span class="name">logDateFormat</span>&gt;</span>yyyy-MM-dd HH:mm:ss<span class="tag">&lt;/<span class="name">logDateFormat</span>&gt;</span></div><div class="line">  		<span class="tag">&lt;<span class="name">logTimeZone</span>&gt;</span>GMT+8:00<span class="tag">&lt;/<span class="name">logTimeZone</span>&gt;</span></div><div class="line">  		<span class="tag">&lt;<span class="name">append</span>&gt;</span>true<span class="tag">&lt;/<span class="name">append</span>&gt;</span></div><div class="line"> 		 <span class="tag">&lt;<span class="name">logServer</span>&gt;</span>true<span class="tag">&lt;/<span class="name">logServer</span>&gt;</span></div><div class="line">  		<span class="tag">&lt;<span class="name">retainDays</span>&gt;</span>120<span class="tag">&lt;/<span class="name">retainDays</span>&gt;</span></div><div class="line">  		<span class="tag">&lt;<span class="name">logCookies</span>&gt;</span>true<span class="tag">&lt;/<span class="name">logCookies</span>&gt;</span></div><div class="line"> 	<span class="tag">&lt;/<span class="name">requestLog</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>org.eclipse.jetty.server.NCSARequestLog 是 org.eclipse.jetty.server.RequestLog 的一个实现类。<br>org.eclipse.jetty.server.NCSARequestLog 是一种伪标准的 NCSA 日志格式。下面是一些节点参数的解释：<br>filename：日志文件的名称<br>filenameDateFormat：日志文件的名称的日期格式，它要求日志文件名必须含有 yyyy_mm_dd 串<br>logDateFormat：日志内容的时间格式<br>logTimeZone：时区<br>append：追加到日志<br>logServer：记录访问的主机名<br>retainDays：日志文件保存的天数, 超过删除<br>logCookies：记录 cookies<br>启动 jetty 服务，在项目的 target 目录下会生成一个 access-2017_03_10.log 文件，该文件中的其中一条记录如下：</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//=====log start eg======</div><div class="line">localhost <span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">0</span>:<span class="number">1</span> -  -  <span class="string">[2017-03-10 13:44:32]</span> <span class="string">"<span class="keyword">GET</span> /operation/index.jsp HTTP/1.1"</span> <span class="number">200</span> <span class="number">138</span> <span class="string">"-"</span> <span class="string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"</span> <span class="string">"JSESSIONID=o35qtph2hwe1fzenoqeys1vz"</span></div><div class="line">...</div><div class="line">//=====log end eg======</div></pre></td></tr></table></figure>
-
+        
+          <p class="article-more-link">
+            <a href="/2017/08/12/jettyMaven/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       <div class="article-footer-content">
         
-        <a data-url="http://www.tongyl.cn/2017/08/12/jettyMaven/" data-id="cj69amnz00003m0qqrtnqwwz9" class="article-share-link">分享到</a>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+        <a data-url="http://www.tongyl.cn/2017/08/12/jettyMaven/" data-id="cj6hzyz2b0004uwqqqjrgoc07" class="article-share-link">分享到</a>
         
+          <a href="http://www.tongyl.cn/2017/08/12/jettyMaven/#lv-container" class="article-comment-link">评论</a>
+        
+          
+
       </div>
     </footer>
   </div>
@@ -161,7 +131,9 @@
 </article>
 
 
+ 
 
+ 
   
     <article id="post-hapiJoi" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -187,66 +159,25 @@
     
     <div class="article-entry" itemprop="articleBody">
       
+        <p>&emsp;&emsp;joi是nodej的一个工具模块，主要用于JavaScript对象的校验。它是一种简单易用的javacript对象约束描述语言，可以轻松解决nodejs开发中的各种参数的校验。<br>
         
-        <p>&emsp;&emsp;joi是nodej的一个工具模块，主要用于JavaScript对象的校验。它是一种简单易用的javacript对象约束描述语言，可以轻松解决nodejs开发中的各种参数的校验。</p>
-<p>详细资料见 <a href="https://github.com/hapijs/joi/tree/v10.5.0" target="_blank" rel="external">https://github.com/hapijs/joi/tree/v10.5.0</a></p>
-<h5 id="1-nodejs引入："><a href="#1-nodejs引入：" class="headerlink" title="1. nodejs引入："></a>1. nodejs引入：</h5><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">const Joi</span> = require(<span class="string">'joi'</span>);</div></pre></td></tr></table></figure>
-<h5 id="2-开时使用："><a href="#2-开时使用：" class="headerlink" title="2.  开时使用："></a>2.  开时使用：</h5><figure class="highlight roboconf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">const schema = Joi.object().keys(&#123;</div><div class="line">    <span class="attribute">username</span>: Joi<span class="variable">.string</span>()<span class="variable">.alphanum</span>()<span class="variable">.min</span>(3)<span class="variable">.max</span>(30)<span class="variable">.required</span>(),</div><div class="line">    password: Joi<span class="variable">.string</span>()<span class="variable">.regex</span>(/^[a-zA-Z0-9]&#123;3,30&#125;$/),</div><div class="line">    access_token: [Joi<span class="variable">.string</span>(), Joi<span class="variable">.number</span>()],</div><div class="line">    birthyear: Joi<span class="variable">.number</span>()<span class="variable">.integer</span>()<span class="variable">.min</span>(1900)<span class="variable">.max</span>(2013),</div><div class="line">    email: Joi<span class="variable">.string</span>()<span class="variable">.email</span>()</div><div class="line">&#125;)<span class="variable">.with</span>('username', 'birthyear')<span class="variable">.without</span>('password', 'access_token');</div><div class="line"></div><div class="line"></div><div class="line"><span class="attribute">const result = Joi.validate(&#123; username</span>: 'abc', birthyear: 1994 &#125;, schema);</div><div class="line">//<span class="attribute">result --&gt; &#123; error</span>: null, value: &#123; username: 'abc', birthyear: 1994 &#125; &#125;</div><div class="line">//result<span class="variable">.error</span> === null, 说明校验通过 ,result<span class="variable">.value</span>校验的对象</div><div class="line"></div><div class="line">//也可以使用回调函数，异步获取校验结果，</div><div class="line">Joi<span class="variable">.validate</span>(&#123; username: 'abc', birthyear: 1994 &#125;, schema, function (err, value) &#123; </div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面的例子定义了一个schema，包含的意思如下：</p>
-<ul>
-<li>username </li>
-</ul>
-<blockquote>
-<p>Joi.String() – 定义类型必须是字符串类型</p>
-<p>.alphanum() – 定义必须包含字母或数字</p>
-<p>.min(3).max(30) – 定义字段长度3-30</p>
-<p>.required() – 定义必修字段</p>
-<p>.with(‘username’,’birthyear’) – 校验对象字段必须和birthyear同时存在</p>
-</blockquote>
-<ul>
-<li>password</li>
-</ul>
-<blockquote>
-<p>.regex(/^[a-zA-Z0-9{3-30}$/) – 定义字段必须匹配正则规则。</p>
-<p>.without(‘password’,’access_token’) – 校验对象中，’password’与’access_token’不同是存在</p>
-</blockquote>
-<ul>
-<li>access_token<blockquote>
-<p>.[Joi.string(),Joi.number()] – 定义字段类型为数字类型或字符串类型</p>
-</blockquote>
-</li>
-</ul>
-<blockquote>
-<p>没有.required()约束 – 定义字段为可选字段</p>
-</blockquote>
-<ul>
-<li>birthyear</li>
-</ul>
-<blockquote>
-<p>.Joi.number().integer() – 定义字段为数字整型</p>
-<p>.min(1900).max(1994) – 定义字段值范围在1900-1994</p>
-</blockquote>
-<ul>
-<li>email</li>
-</ul>
-<blockquote>
-<p>.email() – 定义字段为邮箱地址</p>
-</blockquote>
-<h5 id="23-用法："><a href="#23-用法：" class="headerlink" title="23.  用法："></a>23.  用法：</h5><p> 使用分两步完成 第一步使用joi提供的类型与约束定义一个schema<br> <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"> const <span class="keyword">schema </span>= &#123;</div><div class="line">    a: <span class="keyword">Joi.string()</span></div><div class="line"><span class="keyword">&#125;;</span></div></pre></td></tr></table></figure></p>
-<p> &emsp;&emsp;注意：joi schema对象是不可变，这意味着每增加一条规则（e.g. .min(5)）将会返回一个新的schema对象。</p>
-<p>第二步 通过定义的schema完成值的校验<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const &#123;error, value&#125; = Joi.validate(&#123; a: <span class="string">'a string'</span> &#125;, <span class="keyword">schema</span>);</div><div class="line"></div><div class="line">// or</div><div class="line"></div><div class="line">Joi.validate(&#123; a: <span class="string">'a string'</span> &#125;, <span class="keyword">schema</span>, <span class="keyword">function</span> (err, <span class="keyword">value</span>) &#123; &#125;);</div></pre></td></tr></table></figure></p>
-<p>如果输入的值校验有效，则err===null 否则将会返回错误对象<br>schema可以使用普通的JavaScript对象，其中对象的字段关联joi类型来定义。也可以直接使用一个joi类型定义</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> schema = Joi.<span class="keyword">string</span>().<span class="built_in">min</span>(<span class="number">10</span>);</div></pre></td></tr></table></figure>
-<p>如果schema是直接使用joi类型定义 ，则可以直接使用schema.validate(value,callback)验证。如果是一个非joi类型对象的定义的shema ，实质joi模块会转换成object() 类型，等同如下：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const <span class="keyword">schema </span>= <span class="keyword">Joi.object().keys(&#123;</span></div><div class="line"><span class="keyword"> </span>   a: <span class="keyword">Joi.string()</span></div><div class="line"><span class="keyword">&#125;);</span></div></pre></td></tr></table></figure></p>
-<p>joi模块的字符串编码默认为utf-8</p>
-
+          <p class="article-more-link">
+            <a href="/2017/08/12/hapiJoi/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       <div class="article-footer-content">
         
-        <a data-url="http://www.tongyl.cn/2017/08/12/hapiJoi/" data-id="cj69amnyu0002m0qq4kr16kkj" class="article-share-link">分享到</a>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node/">node</a></li></ul>
+
+        <a data-url="http://www.tongyl.cn/2017/08/12/hapiJoi/" data-id="cj6hzyz1w0001uwqq2txg3pzv" class="article-share-link">分享到</a>
         
+          <a href="http://www.tongyl.cn/2017/08/12/hapiJoi/#lv-container" class="article-comment-link">评论</a>
+        
+          
+
       </div>
     </footer>
   </div>
@@ -256,7 +187,9 @@
 </article>
 
 
+ 
 
+ 
   
     <article id="post-hapi" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -282,18 +215,25 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
         <h6 id="hapijs-框架的权限验证demo，实现接口如下"><a href="#hapijs-框架的权限验证demo，实现接口如下" class="headerlink" title="hapijs 框架的权限验证demo，实现接口如下"></a>hapijs 框架的权限验证demo，实现接口如下</h6><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">/  <span class="builtin-name">get</span>  登陆页面</div><div class="line">/  post  提交登陆信息</div><div class="line">/register  <span class="builtin-name">get</span>  注册页面</div><div class="line">/register  post  提交注册信息</div><div class="line">/logout   <span class="builtin-name">get</span>  退出接口</div></pre></td></tr></table></figure>
-<h6 id="主要逻辑的实现"><a href="#主要逻辑的实现" class="headerlink" title="主要逻辑的实现"></a>主要逻辑的实现</h6><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//new hapi.server实例</span></div><div class="line"><span class="keyword">var</span> server = <span class="keyword">new</span> Hapi.Server();</div><div class="line"></div><div class="line"><span class="comment">//设置服务器端口</span></div><div class="line">server.connection(&#123;</div><div class="line">    host: <span class="string">'localhost'</span>,</div><div class="line">    port: <span class="number">7000</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//注册相关插件</span></div><div class="line"></div><div class="line">server.register([&#123;</div><div class="line">    register: CookieAuth <span class="comment">// 权限插件</span></div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">    register: Vision <span class="comment">//视图模版插件</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">], <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;&#125;);</div><div class="line"></div><div class="line"><span class="comment">//设置视图</span></div><div class="line">server.views(&#123;</div><div class="line">    engines: &#123;</div><div class="line">        html: Handlebars</div><div class="line">    &#125;,</div><div class="line">    path: __dirname + <span class="string">'/views'</span>,</div><div class="line">    layout: <span class="literal">true</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//权限设置及验证</span></div><div class="line">    <span class="comment">//验证函数</span></div><div class="line">    <span class="keyword">var</span> validation = <span class="function"><span class="keyword">function</span> (<span class="params">request, session, callback</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(session);</div><div class="line">        <span class="keyword">var</span> account = session.email;</div><div class="line">        <span class="keyword">var</span> user = User[account];</div><div class="line">        <span class="keyword">if</span> (!user) &#123;</div><div class="line">            <span class="keyword">return</span> callback(<span class="literal">null</span>, <span class="literal">false</span>);</div><div class="line">        &#125;</div><div class="line">        server.log(<span class="string">'info'</span>, <span class="string">'user authenticated'</span>);</div><div class="line">        callback(err, <span class="literal">true</span>, user);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//session-cookie认证策略</span></div><div class="line"></div><div class="line">    server.auth.strategy(<span class="string">'session'</span>, <span class="string">'cookie'</span>, <span class="literal">true</span>, &#123;</div><div class="line">        password: <span class="string">'m!*"2/),p4:xDs%KEgVr7;e#85Ah^WYC'</span>,</div><div class="line">        cookie: <span class="string">'future-studio-hapi-tutorials-cookie-auth-example'</span>,</div><div class="line">        isSecure: <span class="literal">false</span>,</div><div class="line">        redirectTo: <span class="string">'/'</span>,</div><div class="line">        validateFunc: validation</div><div class="line">    &#125;);</div><div class="line"></div><div class="line"><span class="comment">//配置路由</span></div><div class="line">  <span class="keyword">var</span> routes = <span class="built_in">require</span>(<span class="string">'./router'</span>);</div><div class="line">  server.route(routes);</div><div class="line"></div><div class="line"><span class="comment">//启动sever</span></div><div class="line"> server.start(<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (err) &#123;</div><div class="line">            <span class="keyword">throw</span> err</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'Server runing at:'</span> + server.info.uri);</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
-<h6 id="工程的文件说明"><a href="#工程的文件说明" class="headerlink" title="工程的文件说明"></a>工程的文件说明</h6><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="string">|-views 视图文件夹</span></div><div class="line">    <span class="string">|-index.html 登陆页面</span></div><div class="line">    <span class="string">|-profile.html 用户信息展示页面</span></div><div class="line">    <span class="string">|-register.html 注册页面</span></div><div class="line"><span class="string">|-router.js 路由文件</span></div><div class="line"><span class="string">|-user_db.js 注册用户文件</span></div></pre></td></tr></table></figure>
-<h5 id="dome-地址-：https-github-com-tonyonlian-node-hapi-auth"><a href="#dome-地址-：https-github-com-tonyonlian-node-hapi-auth" class="headerlink" title="dome 地址 ：https://github.com/tonyonlian/node-hapi-auth"></a>dome 地址 ：<a href="https://github.com/tonyonlian/node-hapi-auth" target="_blank" rel="external">https://github.com/tonyonlian/node-hapi-auth</a></h5>
+        
+          <p class="article-more-link">
+            <a href="/2017/08/10/hapi/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       <div class="article-footer-content">
         
-        <a data-url="http://www.tongyl.cn/2017/08/10/hapi/" data-id="cj69amnye0000m0qqg36vjjqj" class="article-share-link">分享到</a>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node/">node</a></li></ul>
+
+        <a data-url="http://www.tongyl.cn/2017/08/10/hapi/" data-id="cj6hzyz1w0002uwqqy3fgw2bp" class="article-share-link">分享到</a>
         
+          <a href="http://www.tongyl.cn/2017/08/10/hapi/#lv-container" class="article-comment-link">评论</a>
+        
+          
+
       </div>
     </footer>
   </div>
@@ -303,9 +243,13 @@
 </article>
 
 
+ 
 
+ 
   
   
+
+
 </section>
       
       <aside id="sidebar">
@@ -334,6 +278,13 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/">node</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -373,6 +324,26 @@
   <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
 </nav>
   
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    menuSettings: {
+      zoom: "None"
+    },
+    showMathMenu: false,
+    jax: ["input/TeX","output/CommonHTML"],
+    extensions: ["tex2jax.js"],
+    TeX: {
+      extensions: ["AMSmath.js","AMSsymbols.js"],
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+  });
+</script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script>
+
+
 
 <!-- totop start -->
 <div id="totop">
@@ -383,6 +354,23 @@
 <!-- swiftype search start -->
 
 <!-- swiftype search end -->
+
+
+  
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+
 
 
 
@@ -397,7 +385,7 @@
 
 <script src="/js/script.js"></script>
 
-1
+
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
