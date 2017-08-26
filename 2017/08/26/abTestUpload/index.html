@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <title>如何使用ab测试上传文件 | TongYL&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1. 简单了解ab测试ab是Apache超文本传输协议(HTTP)的性能测试工具。可以使用工具对网络接口进行压力测试，以判断网络接口的性能。 一般对网络接口进行压力测试，需要关注几个重要的指标，吞吐率，响应时间，并发数。通过这些指标的测试，可以反映出服务器的并发能力。 最常用的的工具有 ab 、siege、http_load等，本文主要说如何使用ab测试上传文件接口，在进入主题之前写大体了解下ab">
+<meta name="keywords" content="测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用ab测试上传文件">
+<meta property="og:url" content="http://www.tongyl.cn/2017/08/26/abTestUpload/index.html">
+<meta property="og:site_name" content="TongYL&#39;s Blog">
+<meta property="og:description" content="1. 简单了解ab测试ab是Apache超文本传输协议(HTTP)的性能测试工具。可以使用工具对网络接口进行压力测试，以判断网络接口的性能。 一般对网络接口进行压力测试，需要关注几个重要的指标，吞吐率，响应时间，并发数。通过这些指标的测试，可以反映出服务器的并发能力。 最常用的的工具有 ab 、siege、http_load等，本文主要说如何使用ab测试上传文件接口，在进入主题之前写大体了解下ab">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-26T03:56:39.992Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何使用ab测试上传文件">
+<meta name="twitter:description" content="1. 简单了解ab测试ab是Apache超文本传输协议(HTTP)的性能测试工具。可以使用工具对网络接口进行压力测试，以判断网络接口的性能。 一般对网络接口进行压力测试，需要关注几个重要的指标，吞吐率，响应时间，并发数。通过这些指标的测试，可以反映出服务器的并发能力。 最常用的的工具有 ab 、siege、http_load等，本文主要说如何使用ab测试上传文件接口，在进入主题之前写大体了解下ab">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <!-- <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css"> -->
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+        
+          <a id="nav-github" class="nav-icon" href="https://github.com/tonyonlian"></a>
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">TongYL&#39;s Blog</a>
+        </h1>
+      
+    </div>
+    <div id="contenedor">
+      <ul class="cube">
+        <li class="cara">MyLogo</li>
+        <li class="cara">T</li>
+        <li class="cara">E</li>
+        <li class="cara">A</li>
+        <li class="cara">F</li>
+        <li class="cara">G</li>
+      </ul>
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">Home</a>
+      
+        <a class="main-nav-link" href="/archives">Archives</a>
+      
+        <a class="main-nav-link" href="/about">About</a>
+      
+      <a class="main-nav-link st-search-show-outputs">Search</a>
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-abTestUpload" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2017/08/26/abTestUpload/" class="article-date">
+  <time datetime="2017-08-26T03:49:11.917Z" itemprop="datePublished">2017-08-26</time>
+</h3>
+    
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何使用ab测试上传文件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <h4 id="1-简单了解ab测试"><a href="#1-简单了解ab测试" class="headerlink" title="1. 简单了解ab测试"></a>1. 简单了解ab测试</h4><p>ab是Apache超文本传输协议(HTTP)的性能测试工具。可以使用工具对网络接口进行压力测试，以判断网络接口的性能。</p>
+<p>一般对网络接口进行压力测试，需要关注几个重要的指标，吞吐率，响应时间，并发数。通过这些指标的测试，可以反映出服务器的并发能力。</p>
+<p>最常用的的工具有 ab 、siege、http_load等，本文主要说如何使用ab测试上传文件接口，在进入主题之前写大体了解下ab测试报告。</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">[root@iZ2325lrssqZ ~]<span class="comment"># ab -n 1000 -c 10  http://localhost:8089/getAllApp</span></div><div class="line">This is ApacheBench, Version 2.3 &lt;$Revision:<span class="number"> 655654 </span>$&gt;</div><div class="line">Copyright<span class="number"> 1996 </span>Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</div><div class="line">Licensed to The Apache Software Foundation, http://www.apache.org/</div><div class="line"></div><div class="line">Benchmarking 10.139.97.238 (be patient)</div><div class="line">Completed<span class="number"> 100 </span>requests</div><div class="line">Completed<span class="number"> 200 </span>requests</div><div class="line">Completed<span class="number"> 300 </span>requests</div><div class="line">Completed<span class="number"> 400 </span>requests</div><div class="line">Completed<span class="number"> 500 </span>requests</div><div class="line">Completed<span class="number"> 600 </span>requests</div><div class="line">Completed<span class="number"> 700 </span>requests</div><div class="line">Completed<span class="number"> 800 </span>requests</div><div class="line">Completed<span class="number"> 900 </span>requests</div><div class="line">Completed<span class="number"> 1000 </span>requests</div><div class="line">Finished<span class="number"> 1000 </span>requests</div><div class="line"></div><div class="line"></div><div class="line">Server Software:        </div><div class="line">Server Hostname:        10.139.97.238</div><div class="line">Server Port:            8089</div><div class="line"></div><div class="line">Document Path:          /getAllApp</div><div class="line">Document Length:       <span class="number"> 663124 </span>bytes</div><div class="line"></div><div class="line">Concurrency Level:      10</div><div class="line">Time taken for tests:   115.019 seconds</div><div class="line">Complete requests:      1000</div><div class="line">Failed requests:        0</div><div class="line">Write errors:           0</div><div class="line">Total transferred:     <span class="number"> 663340000 </span>bytes</div><div class="line">HTML transferred:      <span class="number"> 663124000 </span>bytes</div><div class="line">Requests per second:    8.69 [<span class="comment">#/sec] (mean)</span></div><div class="line">Time per request:       1150.193 [ms] (mean)</div><div class="line">Time per request:       115.019 [ms] (mean, across all concurrent requests)</div><div class="line">Transfer rate:          5632.04 [Kbytes/sec] received</div><div class="line"></div><div class="line">Connection Times (ms)</div><div class="line">              min  mean[+/-sd] median   max</div><div class="line">Connect:       <span class="number"> 1 </span>  <span class="number"> 1 </span>  0.7     <span class="number"> 1 </span>     10</div><div class="line">Processing:  <span class="number"> 371 </span>1139 382.2  <span class="number"> 1093 </span>   2782</div><div class="line">Waiting:     <span class="number"> 320 </span><span class="number"> 903 </span>314.1   <span class="number"> 867 </span>   2249</div><div class="line">Total:       <span class="number"> 372 </span>1140 382.2  <span class="number"> 1095 </span>   2783</div><div class="line"></div><div class="line">Percentage of the requests served within a certain time (ms)</div><div class="line">  50%   1095</div><div class="line">  66%   1242</div><div class="line">  75%   1360</div><div class="line">  80%   1427</div><div class="line">  90%   1690</div><div class="line">  95%   1863</div><div class="line">  98%   2107</div><div class="line">  99%   2255</div><div class="line"> 100%  <span class="number"> 2783 </span>(longest request)</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>上述命令表示10个并发用户向服务器请求1000次，下面简单说明下报告中的各项指标含义：</p>
+<ul>
+<li>Document Path：表示请求路径， 这里为/getAllapp；</li>
+<li>Document Length: 表示报文的大小， 这里为663124bytes；</li>
+<li>Concurrency Level: 表示并发级别 ，就是命令中传入的-c， 此处为10，即10个并发；</li>
+<li>Time taken for tests: 表示完成所有测试用时；</li>
+<li>Complete requests: 表示测试中一共完成了多少个请求，就是命令中-n 的参数1000；</li>
+<li>Failed requests: 表示失败的请求个数；</li>
+<li>Write errors: 表示写入过程中出现的错误次数；</li>
+<li>Total transferred: 表示响应的所有报文大小；</li>
+<li>HTML transferred: 表示仅HTTp报文的正文大小，它会比上一个值小；</li>
+<li>Requests per second: 表示服务器没秒能处理多少请求，是我们重点关注的指标，能反映服务器的并发能力，这个值又称RPS或QPS；</li>
+<li><p>Time per request: 两个这样的指标，第一个表示用户平均等待时间，第二个表示服务器平均请求处理时间；</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Time</span> per <span class="built_in">request</span>(第二个) = <span class="built_in">Time</span> per <span class="built_in">request</span>(第-个)/c(并发数）</div></pre></td></tr></table></figure>
+</li>
+<li><p>Transfer rate: 表示传输率，等于传输大小除以传输时间，这个值受网卡带宽限制；</p>
+</li>
+<li>Connection Times: 连接时间，它包括客户端向服务端建立连接，服务器端处理请求，等待报文响应的整个过程。</li>
+</ul>
+<h4 id="2-ab-上传文件"><a href="#2-ab-上传文件" class="headerlink" title="2. ab 上传文件"></a>2. ab 上传文件</h4><p>ab提交文件是以multipart/form-data 形式提交的，ab中上传文件一般命令为：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ab -v <span class="number">2</span> -T <span class="string">'multipart/form-data; boundary=----WebKitFormBoundaryM1tLdAWapR8WCJSe'</span> -<span class="selector-tag">p</span> ./abpost<span class="selector-class">.txt</span> http:<span class="comment">//localhost:7080/file/upload</span></div></pre></td></tr></table></figure>
+<p>指定T参数 （T参数表示POST数据所使用的Content-type头信息），<br>指定p参数（p包含了需要POST的数据的文件），文件数据是包含在abpost.txt文件中，这个文件内部结构符合rfc1867协议规定。</p>
+<p>下面我们就一步步说明怎么构造abpost.txt文件上传数据</p>
+<ol>
+<li>定义边界线</li>
+</ol>
+<p>我们在ab的T参数中定义http协议的Content-type 同时也约定了边界线。如上边命令中定义的边界线:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">boundary</span>=----WebKitFormBoundaryM1tLdAWapR8WCJSe</div></pre></td></tr></table></figure>
+<p>注意“=” 后面是紧跟着的四条短线（-）</p>
+<ol>
+<li>构造abpost.txt文件内容</li>
+</ol>
+<p>这个文件可放在ab命令使用的当前目录，这样就按照上面的写法，作为p参数。先贴出abpost.txt内容，后面再做解释。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">------WebKitFormBoundaryM1tLdAWapR8WCJSe</div><div class="line">Content-<span class="string">Disposition:</span> form-data; name=<span class="string">"file"</span>; filename=<span class="string">"file.jpg"</span></div><div class="line">Content-<span class="string">Type:</span> image/jpeg</div><div class="line"></div><div class="line">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAFMQAABTEBt+<span class="number">0</span>oUgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAVUSURBVEiJpZRZbFzVHcZ<span class="regexp">/5965c2ffV9sz8RjHdpyxweNEoSRN2YJLwxJBqYTahz6URSC1UqtWbSOlIPHQVuoDFeKpaaWqUh+iShRUElUCTBZRm8iBAnHiNfEyZuzxzHjuzHj224fUI4whQeJI5+Ecne/</span><span class="number">7</span><span class="regexp">/b9zjv7ous5XmQ6L/</span>B3Aous6gBHwfBWdxC2G32F8Sgihhm3q8MEu19mQy9zlMCuJvSHbq7fSArcGRJymBx4fDI6ntNrGQ<span class="regexp">/3+4XjA8reoS33owT3e+zrctju+NqBYbXz0cNw/</span><span class="number">6</span>DDJz9pVA30h62A8ZPt+PGz3+S3Sk18LYBciYDJIxwC+e3uoz6bK7A3arCN7fJ2VehNZkr4d8qjxm3mI<span class="regexp">/z8aAG4hXJ0d9uPVejNVrbNyYJfj1/</span>ujzn6X2bBDuFlrIBB8mNQWzs1mXpFkyeU2GzqvrVX+cC1XnNgB2OO3DveErH9+NB4YLFQaldVCpdETsFliu3sJtkcQAj5dWqRer+P1B5ENMqsrSVLJJa6uZOtuk6K7LIpyaSmffHc6c2JiOX8SoFVau8d8<span class="regexp">/Kn7BweHDhzk3Oio5DRn1L1D+4h2dbeqdnl821IEwu3s7h9AeuffBiEp+uEjI0Q/</span>nGibSZ<span class="comment">//AXBy2xu4zIYeh9PF8nKyXtEyisPlJtrVzaamsTB6lvT0TMu4mM2yeP4CxUwG1WQiGuumpOXE5OXLNbvDScCm9gkhrNsSrBWqq1NXr/YaFYMBwOF0AbD+3jjdb15gsTdCPbYLg0Eh+845bjv7AbPfXMP6+DFkWQZgYeoTpdwQxWvZ0qyu68VtCS7NZp94/ePUit6oA2Cx2QGQvG5WQy6KATcGgwJA0+Ug7Xeiu5wA5DLrAOjNJuNz6cql5cJzW76tBBooMa/F9vnf0jacYLOvh5jF2tqL3ns3xf0JonYHpUKBXGadaFc32fQafcGq2zqVbgf+uw0QdZmO7PaZ3VvrxWuzRGJdqCYzZquN02OXSfREqNbqLKU3+EZ/JwCKauTuBx9uJai++U8RshkPAae3ATw2ZcCu3lj6giHaIrsoaHlUkxmASr3BP85+QLFcZX9vtJVGUYykshpehxWDLOH1B/Fa59t2XlG5MVuqNtgVjbD/0Lc+f1McOzhAuVpDMcjIkkQqq3F+Jk3d7OXS5Ay/fSIBQKPRIFuqr+4AzKZLZ+bWN7WhhM8OMH51mcFYAJNRaUHypTLnZ9apmb2UJAs/+c0rqKrKn35/onVmOZUmla+O7QDoun79e0OhRW1jox/AYDTy/MlRjt5zF0I2MDW/yOH7R/jhiWNIksSpU6dQVfWGuJwHTORzWSbmU+nruc13t3y3NbvkRmUyuXidbHqNRMzPzx/dh9UX5ulfvMihkUc4fN8IqqoihGCrxUxdmSSoNgCYn7rC7NrmFV3X178QMLdS/tm5udz8RxPjNJtN+trc7NGX+N2vfoyW30DTtBsiSaLZbJLL5Xj9L3/kzp4w66sp3r74SWY6XXjhs57builAvN3xy6cPtL3Uc1tMjif2tX7Ra2PTlCwBfB1d+IJhzvzrDbqdEo8NRygXNS6Mvs3Lb02ffH8h96ObAoQQ4s5Ox2tPJsJHvXaL3Be/nUhXN0IIACq1OlmtRMjjQNd1UsklLo79h7+OLbw3Op05stUivhSwBRkI247f2+N5Zqjd0WF3OHG6PZitNoQQ1KoVKpUK6dSnTC5nMqcn03+/uJj/qa7r1R1eXwTYGh1u2x0DYfMLQZuxN+Yxd0bcJpMkBMl8pTa3VlpIl2ozHy8XXp7JFE9/mcdNAZ9JJFkVZSDiUY7KQjItbJTPaJv193Vdr91K+z+BklGf3fugXAAAAABJRU5ErkJggg==</span></div><div class="line">------WebKitFormBoundaryM1tLdAWapR8WCJSe--</div></pre></td></tr></table></figure>
+<p>注意：abpost.txt文件最好使sublime之类的文本编辑编辑，不要使用Windows下的记事本编辑。</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">------WebKitFormBoundaryM1tLdAWapR8WCJSe</span></div></pre></td></tr></table></figure>
+<p>开始边界。这是第一行，与边界线T参数里面定义的一样，但必须注意字母前面的短线要变成六条，而不是之前T参数中的四条。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Content-Disposition: form-data; <span class="attribute">name</span>=<span class="string">"file"</span>; <span class="attribute">filename</span>=<span class="string">"file.jpg"</span></div><div class="line">Content-Type: image/jpeg</div></pre></td></tr></table></figure>
+<p>头部信息。紧接着的两行是头部信息，包含“Content-Disposition”，<br>“Content-Type”。其中“Content-Disposition”要指明数据格式，服务端接收文件的名字（file），以及上传文件的名字<br>而在 Content-Type 中，一般就是指明MIME类型</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAFMQAABTEBt+<span class="number">0</span>oUgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAVUSURBVEiJpZRZbFzVHcZ<span class="regexp">/5965c2ffV9sz8RjHdpyxweNEoSRN2YJLwxJBqYTahz6URSC1UqtWbSOlIPHQVuoDFeKpaaWqUh+iShRUElUCTBZRm8iBAnHiNfEyZuzxzHjuzHj224fUI4whQeJI5+Ecne/</span><span class="number">7</span><span class="regexp">/b9zjv7ous5XmQ6L/</span>B3Aous6gBHwfBWdxC2G32F8Sgihhm3q8MEu19mQy9zlMCuJvSHbq7fSArcGRJymBx4fDI6ntNrGQ<span class="regexp">/3+4XjA8reoS33owT3e+zrctju+NqBYbXz0cNw/</span><span class="number">6</span>DDJz9pVA30h62A8ZPt+PGz3+S3Sk18LYBciYDJIxwC+e3uoz6bK7A3arCN7fJ2VehNZkr4d8qjxm3mI<span class="regexp">/z8aAG4hXJ0d9uPVejNVrbNyYJfj1/u</span>jzn6X2bBDuFlrIBB8mNQWzs1mXpFkyeU2GzqvrVX+cC1XnNgB2OO3DveErH9+NB4YLFQaldVCpdETsFliu3sJtkcQAj5dWqRer+P1B5ENMqsrSVLJJa6uZOtuk6K7LIpyaSmffHc6c2JiOX8SoFVau8d8<span class="regexp">/Kn7BweHDhzk3Oio5DRn1L1D+4h2dbeqdnl821IEwu3s7h9AeuffBiEp+uEjI0Q/</span>nGibSZ<span class="regexp">//</span>AXBy2xu4zIYeh9PF8nKyXtEyisPlJtrVzaamsTB6lvT0TMu4mM2yeP4CxUwG1WQiGuumpOXE5OXLNbvDScCm9gkhrNsSrBWqq1NXr<span class="regexp">/YaFYMBwOF0AbD+3jjdb15gsTdCPbYLg0Eh+845bjv7AbPfXMP6+DFkWQZgYeoTpdwQxWvZ0qyu68VtCS7NZp94/</span>ePUit6oA2Cx2QGQvG5WQy6KATcGgwJA0+Ug7Xeiu5wA5DLrAOjNJuNz6cql5cJzW76tBBooMa<span class="regexp">/F9vnf0jacYLOvh5jF2tqL3ns3xf0JonYHpUKBXGadaFc32fQafcGq2zqVbgf+uw0QdZmO7PaZ3VvrxWuzRGJdqCYzZquN02OXSfREqNbqLKU3+EZ/</span>JwCKauTuBx9uJai++U8RshkPAae3ATw2ZcCu3lj6giHaIrsoaHlUkxmASr3BP85+QLFcZX9vtJVGUYykshpehxWDLOH1B<span class="regexp">/Fa59t2XlG5MVuqNtgVjbD/</span><span class="number">0</span>Lc+f1McOzhAuVpDMcjIkkQqq3F+Jk3d7OXS5Ay<span class="regexp">/fSIBQKPRIFuqr+4AzKZLZ+bWN7WhhM8OMH51mcFYAJNRaUHypTLnZ9apmb2UJAs/</span>+c0rqKrKn35<span class="regexp">/onVmOZUmla+O7QDoun79e0OhRW1jox/</span>AYDTy<span class="regexp">/MlRjt5zF0I2MDW/y</span>OH7R<span class="regexp">/jhiWNIksSpU6dQVfWGuJwHTORzWSbmU+nruc13t3y3NbvkRmUyuXidbHqNRMzPzx/</span>dh9UX5ulfvMihkUc4fN8IqqoihGCrxUxdmSSoNgCYn7rC7NrmFV3X178QMLdS<span class="regexp">/tm5udz8RxPjNJtN+trc7NGX+N2vfoyW30DTtBsiSaLZbJLL5Xj9L3/</span>kzp4w66sp3r74SWY6XXjhs57builAvN3xy6cPtL3Uc1tMjif2tX7Ra2PTlCwBfB1d+IJhzvzrDbqdEo8NRygXNS6Mvs3Lb02ffH8h96ObAoQQ4s5Ox2tPJsJHvXaL3Be<span class="regexp">/nUhXN0IIACq1OlmtRMjjQNd1UsklLo79h7+OLbw3Op05stUivhSwBRkI247f2+N5Zqjd0WF3OHG6PZitNoQQ1KoVKpUK6dSnTC5nMqcn03+/u</span>Jj<span class="regexp">/qa7r1R1eXwTYGh1u2x0DYfMLQZuxN+Yxd0bcJpMkBMl8pTa3VlpIl2ozHy8XXp7JFE9/m</span>cdNAZ9JJFkVZSDiUY7KQjItbJTPaJv193Vdr91K+z+BklGf3fugXAAAAABJRU5ErkJggg==</div></pre></td></tr></table></figure>
+<p>上传的文件数据。数据就是真实的文件数据的 base64 编码后的数据（可以使用在线base64编码文件数据），与之前的文件头信息空格一行。</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">WebKitFormBoundaryM1tLdAWapR8WCJSe</span><span class="literal">-</span><span class="literal">-</span></div></pre></td></tr></table></figure>
+<p>文件数据最后是结尾边界。一定要注意： 前面有6条线，字母尾部有2条短线，短线的数量严格遵守，否则文件无法上传成功。主要是原因是，如果不严格按照规范写，会导致http提交报文无法正确解析的。</p>
+<p>到此abpost.txt文件构造完毕。将构造好的abpost.txt文件放在执行ab命令的当前目录，换上自己的文件上传接口地址，执行命令就可以。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试/">测试</a></li></ul>
+
+        <a data-url="http://www.tongyl.cn/2017/08/26/abTestUpload/" data-id="cj6srzic00000iwqqxxwqux8q" class="article-share-link">分享到</a>
+        
+          <a href="http://www.tongyl.cn/2017/08/26/abTestUpload/#lv-container" class="article-comment-link">评论</a>
+        
+          
+
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/12/jettyMaven/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">jetty-maven-plugin插件的使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+ 
+  <section id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDI0Ny82ODAy"></div>
+  </section>
+ 
+
+ </section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/08/26/abTestUpload/">如何使用ab测试上传文件</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/12/jettyMaven/">jetty-maven-plugin插件的使用</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/12/hapiJoi/">验证模块joi介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/10/hapi/">hapijs 框架的权限验证</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/">node</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Tong yongliang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Content by <a href="https://github.com/tonyonlian" target="_blank">yongliang</a>
+        <span style="color:#ffffff">&nbsp|&nbsp&nbsp</span><span style="display: inline;" id="busuanzi_container_site_pv">您是本站第 <span id="busuanzi_value_site_pv" font="微软雅黑" style="color:white"></span> 个访客</span>
+    </div>
+  </div>
+ 
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">Search</a>
+</nav>
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    menuSettings: {
+      zoom: "None"
+    },
+    showMathMenu: false,
+    jax: ["input/TeX","output/CommonHTML"],
+    extensions: ["tex2jax.js"],
+    TeX: {
+      extensions: ["AMSmath.js","AMSsymbols.js"],
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+  });
+</script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script>
+
+
+
+<!-- totop start -->
+<div id="totop">
+	<a title="返回顶部"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+  
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+</div>
+</body>
+</html>
