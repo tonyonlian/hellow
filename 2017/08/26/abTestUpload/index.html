@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="TongYL&#39;s Blog">
 <meta property="og:description" content="1. 简单了解ab测试ab是Apache超文本传输协议(HTTP)的性能测试工具。可以使用工具对网络接口进行压力测试，以判断网络接口的性能。 一般对网络接口进行压力测试，需要关注几个重要的指标，吞吐率，响应时间，并发数。通过这些指标的测试，可以反映出服务器的并发能力。 最常用的的工具有 ab 、siege、http_load等，本文主要说如何使用ab测试上传文件接口，在进入主题之前写大体了解下ab">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-08-26T03:56:39.992Z">
+<meta property="og:updated_time" content="2017-08-26T04:26:01.997Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何使用ab测试上传文件">
 <meta name="twitter:description" content="1. 简单了解ab测试ab是Apache超文本传输协议(HTTP)的性能测试工具。可以使用工具对网络接口进行压力测试，以判断网络接口的性能。 一般对网络接口进行压力测试，需要关注几个重要的指标，吞吐率，响应时间，并发数。通过这些指标的测试，可以反映出服务器的并发能力。 最常用的的工具有 ab 、siege、http_load等，本文主要说如何使用ab测试上传文件接口，在进入主题之前写大体了解下ab">
@@ -139,7 +139,7 @@
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">boundary</span>=----WebKitFormBoundaryM1tLdAWapR8WCJSe</div></pre></td></tr></table></figure>
 <p>注意“=” 后面是紧跟着的四条短线（-）</p>
 <ol>
-<li>构造abpost.txt文件内容</li>
+<li>2.构造abpost.txt文件内容</li>
 </ol>
 <p>这个文件可放在ab命令使用的当前目录，这样就按照上面的写法，作为p参数。先贴出abpost.txt内容，后面再做解释。</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">------WebKitFormBoundaryM1tLdAWapR8WCJSe</div><div class="line">Content-<span class="string">Disposition:</span> form-data; name=<span class="string">"file"</span>; filename=<span class="string">"file.jpg"</span></div><div class="line">Content-<span class="string">Type:</span> image/jpeg</div><div class="line"></div><div class="line">iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAFMQAABTEBt+<span class="number">0</span>oUgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAVUSURBVEiJpZRZbFzVHcZ<span class="regexp">/5965c2ffV9sz8RjHdpyxweNEoSRN2YJLwxJBqYTahz6URSC1UqtWbSOlIPHQVuoDFeKpaaWqUh+iShRUElUCTBZRm8iBAnHiNfEyZuzxzHjuzHj224fUI4whQeJI5+Ecne/</span><span class="number">7</span><span class="regexp">/b9zjv7ous5XmQ6L/</span>B3Aous6gBHwfBWdxC2G32F8Sgihhm3q8MEu19mQy9zlMCuJvSHbq7fSArcGRJymBx4fDI6ntNrGQ<span class="regexp">/3+4XjA8reoS33owT3e+zrctju+NqBYbXz0cNw/</span><span class="number">6</span>DDJz9pVA30h62A8ZPt+PGz3+S3Sk18LYBciYDJIxwC+e3uoz6bK7A3arCN7fJ2VehNZkr4d8qjxm3mI<span class="regexp">/z8aAG4hXJ0d9uPVejNVrbNyYJfj1/</span>ujzn6X2bBDuFlrIBB8mNQWzs1mXpFkyeU2GzqvrVX+cC1XnNgB2OO3DveErH9+NB4YLFQaldVCpdETsFliu3sJtkcQAj5dWqRer+P1B5ENMqsrSVLJJa6uZOtuk6K7LIpyaSmffHc6c2JiOX8SoFVau8d8<span class="regexp">/Kn7BweHDhzk3Oio5DRn1L1D+4h2dbeqdnl821IEwu3s7h9AeuffBiEp+uEjI0Q/</span>nGibSZ<span class="comment">//AXBy2xu4zIYeh9PF8nKyXtEyisPlJtrVzaamsTB6lvT0TMu4mM2yeP4CxUwG1WQiGuumpOXE5OXLNbvDScCm9gkhrNsSrBWqq1NXr/YaFYMBwOF0AbD+3jjdb15gsTdCPbYLg0Eh+845bjv7AbPfXMP6+DFkWQZgYeoTpdwQxWvZ0qyu68VtCS7NZp94/ePUit6oA2Cx2QGQvG5WQy6KATcGgwJA0+Ug7Xeiu5wA5DLrAOjNJuNz6cql5cJzW76tBBooMa/F9vnf0jacYLOvh5jF2tqL3ns3xf0JonYHpUKBXGadaFc32fQafcGq2zqVbgf+uw0QdZmO7PaZ3VvrxWuzRGJdqCYzZquN02OXSfREqNbqLKU3+EZ/JwCKauTuBx9uJai++U8RshkPAae3ATw2ZcCu3lj6giHaIrsoaHlUkxmASr3BP85+QLFcZX9vtJVGUYykshpehxWDLOH1B/Fa59t2XlG5MVuqNtgVjbD/0Lc+f1McOzhAuVpDMcjIkkQqq3F+Jk3d7OXS5Ay/fSIBQKPRIFuqr+4AzKZLZ+bWN7WhhM8OMH51mcFYAJNRaUHypTLnZ9apmb2UJAs/+c0rqKrKn35/onVmOZUmla+O7QDoun79e0OhRW1jox/AYDTy/MlRjt5zF0I2MDW/yOH7R/jhiWNIksSpU6dQVfWGuJwHTORzWSbmU+nruc13t3y3NbvkRmUyuXidbHqNRMzPzx/dh9UX5ulfvMihkUc4fN8IqqoihGCrxUxdmSSoNgCYn7rC7NrmFV3X178QMLdS/tm5udz8RxPjNJtN+trc7NGX+N2vfoyW30DTtBsiSaLZbJLL5Xj9L3/kzp4w66sp3r74SWY6XXjhs57builAvN3xy6cPtL3Uc1tMjif2tX7Ra2PTlCwBfB1d+IJhzvzrDbqdEo8NRygXNS6Mvs3Lb02ffH8h96ObAoQQ4s5Ox2tPJsJHvXaL3Be/nUhXN0IIACq1OlmtRMjjQNd1UsklLo79h7+OLbw3Op05stUivhSwBRkI247f2+N5Zqjd0WF3OHG6PZitNoQQ1KoVKpUK6dSnTC5nMqcn03+/uJj/qa7r1R1eXwTYGh1u2x0DYfMLQZuxN+Yxd0bcJpMkBMl8pTa3VlpIl2ozHy8XXp7JFE9/mcdNAZ9JJFkVZSDiUY7KQjItbJTPaJv193Vdr91K+z+BklGf3fugXAAAAABJRU5ErkJggg==</span></div><div class="line">------WebKitFormBoundaryM1tLdAWapR8WCJSe--</div></pre></td></tr></table></figure>
@@ -161,7 +161,7 @@
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/测试/">测试</a></li></ul>
 
-        <a data-url="http://www.tongyl.cn/2017/08/26/abTestUpload/" data-id="cj6srzic00000iwqqxxwqux8q" class="article-share-link">分享到</a>
+        <a data-url="http://www.tongyl.cn/2017/08/26/abTestUpload/" data-id="cj6st20ao0001l8qqyqcfyfba" class="article-share-link">分享到</a>
         
           <a href="http://www.tongyl.cn/2017/08/26/abTestUpload/#lv-container" class="article-comment-link">评论</a>
         
@@ -175,6 +175,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/05/04/zookeeper/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          zookeeper客户端命令的使用
+        
+      </div>
+    </a>
   
   
     <a href="/2017/08/12/jettyMaven/" id="article-nav-older" class="article-nav-link-wrap">
@@ -205,6 +214,10 @@
       <ul>
         
           <li>
+            <a href="/2018/05/04/zookeeper/">zookeeper客户端命令的使用</a>
+          </li>
+        
+          <li>
             <a href="/2017/08/26/abTestUpload/">如何使用ab测试上传文件</a>
           </li>
         
@@ -229,7 +242,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/">node</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/">node</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/测试/">测试</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -238,7 +251,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -251,7 +264,7 @@
 
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2017 Tong yongliang<br>
+      &copy; 2018 Tong yongliang<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
       .
       Content by <a href="https://github.com/tonyonlian" target="_blank">yongliang</a>
